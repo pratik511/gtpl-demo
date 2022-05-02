@@ -1,0 +1,67 @@
+.outside{
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}
+.container{
+  background-color: rgb(98, 242, 247);
+  width: 20%;
+  height: 550px;
+}
+.imgDiv{
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+}
+
+.imgSize{
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}
+.center{
+  text-align: center;
+  text-shadow: 2px 2px #FF0000;
+}
+.hometext{
+  padding: 30px 20px 0 20px;
+}
+.hometext p{
+  font-size: 18px;
+  font-family: 'Times New Roman', Times, serif;
+}
+.hometext span{
+  margin-right: 8px;
+}
+.HomeBtnMain{
+  display: flex;
+  justify-content: center;
+}
+.HomeBtn{
+  height: 30px;
+  width: 35%;
+  font-family: 'Times New Roman', Times, serif;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: rgb(249, 172, 253);
+  margin-top: 6%;
+}
+.backBtn{
+  height: 15px;
+  width: 30px;
+}
+.btnHide{
+  background: transparent;
+  border: aliceblue;
+  font-size: 50px;
+  opacity: 0.4;
+}
+
+.font{
+  font-size: 18px;
+  font-family: 'Times New Roman', Times, serif;
+}
+.imgSizeL{
+  width: 100px;
+  height: 130px;
+}
