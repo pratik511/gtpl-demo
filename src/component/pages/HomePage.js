@@ -28,7 +28,7 @@ export const HomePage = () => {
             </p>
           </div>
           <div className="HomeBtnMain">
-            <button className="HomeBtn" disabled={page == fPage.length-1 } onClick={() =>{setPage((currPage) =>currPage +1)}}>GET START</button>
+            <button className="HomeBtn" disabled={page === fPage.length-1 } onClick={() =>{setPage((currPage) =>currPage +1)}}>GET START</button>
           </div>
         </div>
       </div>

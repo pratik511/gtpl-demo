@@ -5,8 +5,8 @@ import N from ".././utils/img/n.png";
 function Main() {
   const [page, setPage] = useState(0);
   const [obj1, setObj1] = useState({
-    userName: "",
-    userPhoneNumber: "",
+    userName: "Pratik",
+    userPhoneNumber: "1234567890",
   });
   const [errorMsg1, setErrorMsg1] = useState({
     userName: "",
@@ -14,48 +14,89 @@ function Main() {
   });
 
   const onChangeObj1 = (e) => {
+    // debugger
     // e.preventdefault()
-    // console.log("e+++", e.target.value);
     const { name, value } = e.target;
-    setObj1({ ...obj1, [name]: value });
     setErrorMsg1({ ...errorMsg1, [name]: "" });
+    setObj1({ ...obj1, [name]: value });
+    // objValidation1()
+    console.log("namename", name);
+    if (name === "userName") {
+      nameVali(value);
+    } else if (name === "userPhoneNumber") {
+      numberVali(value);
+    }
   };
+
+  // onChangeName = (e) =>{
+  //     const{name,value} =e.target;
+  //     setObj1({})
+  // }
+
   console.log("obj1obj1", obj1);
-  const objValidation1 = () => {
+  const nameVali = (value) => {
     let error = true;
     let userNameMsg = "";
-    let userPhoneNumberMsg = "";
-
-    if (obj1.userName === "") {
+    if (!value) {
       userNameMsg = "Username is Required!";
       error = false;
-    } else if (obj1.userName === obj1.userName.type) {
     }
-    if (obj1.userPhoneNumber === "") {
-      userPhoneNumberMsg = "Mobile Number is Required!";
-      error = false;
-    } else if (obj1.userPhoneNumber.length < 10) {
-      userPhoneNumberMsg = `Mobile Number is not Valid! ${obj1.userPhoneNumber.length} value`;
-      error = false;
-    } else if (obj1.userPhoneNumber.length > 10) {
-      userPhoneNumberMsg = `Mobile Number is not Valid! ${obj1.userPhoneNumber.length} value`;
-      error = false;
-    }
-
     setErrorMsg1({
       userName: userNameMsg,
+    });
+  };
+
+  const numberVali = (value) => {
+    // console.log("value",value);
+    let error = true;
+    let userPhoneNumberMsg = "";
+    if (!value) {
+      userPhoneNumberMsg = "Mobile Number is Required!";
+      error = false;
+    } else if (value.length !== 10) {
+      userPhoneNumberMsg = `Mobile Number Must be 10 Digit`;
+      error = false;
+    }
+    setErrorMsg1({
       userPhoneNumber: userPhoneNumberMsg,
     });
-    // return error;
   };
 
   const onSubmitObj1 = () => {
-      objValidation1();
-      console.log("errorMsg1.userName",obj1);
-    // if (errorMsg1.userName == "" && errorMsg1.userPhoneNumber == "") {
-    //   Next();
-    // }
-  };
+    let pattern = /[^A-Za-z_.]/;
+    const string = obj1.userName.match(pattern);
+
+    if (!obj1.userName && !obj1.userPhoneNumber) {
+      setErrorMsg1({
+        userName: "Username is Required!",
+        userPhoneNumber: "Mobile Number is Required!",
+      });
+    } else if (string) {
+      setErrorMsg1({
+        userName: "Username Not Allow Number!",
+      });
+    } else if (!obj1.userName) {
+      setErrorMsg1({
+        userName: "Username is Required!",
+      });
+    } else if (!obj1.userPhoneNumber) {
+      setErrorMsg1({
+        userPhoneNumber: "Mobile Number is Required!",
+      });
+    } else if (obj1.userPhoneNumber.length !== 10) {
+      setErrorMsg1({
+        userPhoneNumber: "Mobile Number Must be 10 Digit",
+      });
+    } else {
+      Next();
+    }
+    
+    console.log("obj", obj1);
+};
+
+const secondSubmit = () =>{
+
+  } 
 
   const Next = () => {
     return setPage((currPage) => currPage + 1);
@@ -106,38 +147,44 @@ function Main() {
                 <i className="fa">&#xf177;</i>
               </button>
               <div className="mb-3 m-5">
-                <label className="form-label mt-5 mb-0 ">Enter Name</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  name="userName"
-                  value={obj1.userName}
-                  onChange={onChangeObj1}
-                  placeholder="Enter Name"
-                  aria-label="default input example"
-                />
-                <div className="form-label mb-0 ">
-                  {errorMsg1.userName !== "" && (
-                    <span style={{ color: "red" }}>{errorMsg1.userName}</span>
-                  )}
+                <div className="py-2">
+                  <label className="form-label m-0">Enter Name</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="userName"
+                    value={obj1.userName}
+                    onChange={onChangeObj1}
+                    placeholder="Enter Name"
+                    aria-label="default input example"
+                  />
+                  <div className="errorClass">
+                    {errorMsg1.userName !== "" && (
+                      <p className="m-0" style={{ color: "red" }}>
+                        {errorMsg1.userName}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <label className="form-label mt-4 mb-0">Enter Number</label>
-                <input
-                  className="form-control"
-                  name="userPhoneNumber"
-                  type="number"
-                  maxLength={10}
-                  value={obj1.userPhoneNumber}
-                  onChange={onChangeObj1}
-                  placeholder="Enter number"
-                  aria-label="default input example"
-                />
-                <div className="form-label mb-0 ">
-                  {errorMsg1.userPhoneNumber !== "" && (
-                    <span style={{ color: "red" }}>
-                      {errorMsg1.userPhoneNumber}
-                    </span>
-                  )}
+                <div className="py-2">
+                  <label className="form-label m-0">Enter Number</label>
+                  <input
+                    className="form-control"
+                    name="userPhoneNumber"
+                    type="number"
+                    maxLength="10"
+                    value={obj1.userPhoneNumber}
+                    onChange={onChangeObj1}
+                    placeholder="Enter number"
+                    aria-label="default input example"
+                  />
+                  <div className="errorClass">
+                    {errorMsg1.userPhoneNumber !== "" && (
+                      <p className="m-0" style={{ color: "red" }}>
+                        {errorMsg1.userPhoneNumber}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="HomeBtnMain mt-5">
@@ -161,16 +208,16 @@ function Main() {
                 <label className="form-label mt-3 mb-0 font">
                   Packege_Type
                 </label>
-                <select class="form-select" aria-label="Default select example">
-                  <option selected>Select Type</option>
-                  <option value="1">SD</option>
-                  <option value="2">HD</option>
-                  <option value="3">Normal</option>
-                  <option value="3">HD+</option>
-                  <option value="3">UHD</option>
+                <select className="form-select" id="ddlView" aria-label="Default select example" >
+                  <option value="Select" selected disabled>Select Type</option>
+                  <option value="SD">SD</option>
+                  <option value="HD">HD</option>
+                  <option value="Normal">Normal</option>
+                  <option value="HD+">HD+</option>
+                  <option value="UHD">UHD</option>
                 </select>
               </div>
-              <div className="mb-3 m-5">
+              <div className="mb-3 m-4">
                 <label className="form-label mt-3 mb-0 font">
                   <li>SD - Standara Definition/720.</li>
                 </label>
@@ -192,7 +239,7 @@ function Main() {
                 </label>
               </div>
               <div className="HomeBtnMain mt-4">
-                <button className="HomeBtn" onClick={Next}>
+                <button className="HomeBtn" onClick={secondSubmit()}>
                   NEXT
                 </button>
               </div>
@@ -222,7 +269,7 @@ function Main() {
                 <label className="form-label mt-2 mb-0 font">
                   Packege_Type
                 </label>
-                <select class="form-select" aria-label="Default select example">
+                <select className="form-select" aria-label="Default select example">
                   <option selected>Select Plane</option>
                   <option value="1">1-Month</option>
                   <option value="2">3-Month</option>

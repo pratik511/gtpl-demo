@@ -1,5 +1,4 @@
 import React from 'react'
-import Back from '../../utils/img/back3.png'
 
 export const SecondPage = () => {
     return (
