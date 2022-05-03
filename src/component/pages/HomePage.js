@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import HomeLogo from "../../utils/img/pratik.jpeg";
 
 export const HomePage = () => {
+  const [page, setPage] = useState(0);
+  const fPage =['1','2','3']
   return (
     <>
       <div className="outside">
@@ -9,6 +11,7 @@ export const HomePage = () => {
           <div className="imgDiv">
             <img className="imgSize" src={HomeLogo} />
           </div>
+          <h1>{fPage[page]}</h1>
           <h2 className="center">Welcome,User</h2>
           <div className="hometext">
             <p>
@@ -25,7 +28,7 @@ export const HomePage = () => {
             </p>
           </div>
           <div className="HomeBtnMain">
-            <button className="HomeBtn">GET START</button>
+            <button className="HomeBtn" disabled={page == fPage.length-1 } onClick={() =>{setPage((currPage) =>currPage +1)}}>GET START</button>
           </div>
         </div>
       </div>
