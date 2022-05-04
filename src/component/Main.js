@@ -23,23 +23,33 @@ function Main() {
     // setErrorMsg1({ ...errorMsg1, [name]: "" });
     if (name === "userName") {
       if (!value) {
-        setErrorMsg1({
+        setErrorMsg1({ ...errorMsg1 ,
           userName: "Username is Required!",
         });
       } else if (value.match(pattern)) {
-        setErrorMsg1({
+        setErrorMsg1({...errorMsg1 ,
           userName: "Username Not Allow Number!",
+        });
+      }
+      else {
+        setErrorMsg1({...errorMsg1 ,
+          userName: "",
         });
       }
     }
     else if (name === "userPhoneNumber") {
       if (!value) {
-        setErrorMsg1({
+        setErrorMsg1({...errorMsg1 ,
           userPhoneNumber: "Mobile Number is Required!",
         });
       } else if (value.length !== 10) {
-        setErrorMsg1({
+        setErrorMsg1({...errorMsg1 ,
           userPhoneNumber: "Mobile Number Must be 10 Digit",
+        });
+      }
+      else {
+        setErrorMsg1({...errorMsg1 ,
+          userPhoneNumber: "",
         });
       }
     }
@@ -51,26 +61,19 @@ function Main() {
         userPhoneNumber: "Mobile Number is Required!",
       });
     } else if (!obj1.userName) {
-      setErrorMsg1({
+      setErrorMsg1({...errorMsg1 ,
         userName: "Username is Required!",
       });
-    } else if (obj1.userName.match(pattern)) {
-      setErrorMsg1({
-        userName: "Username Not Allow Number!",
-      });
-    } else if (!obj1.userPhoneNumber) {
-      setErrorMsg1({
+    }  else if (!obj1.userPhoneNumber) {
+      setErrorMsg1({...errorMsg1 ,
         userPhoneNumber: "Mobile Number is Required!",
       });
-    } else if (obj1.userPhoneNumber.length !== 10) {
-      setErrorMsg1({
-        userPhoneNumber: "Mobile Number Must be 10 Digit",
-      });
-    } else {
+    } else if (errorMsg1.userName || errorMsg1.userPhoneNumber) {
+      // true
+      onChangeObj1()
+    }else {
       Next();
     }
-
-    console.log("obj", obj1);
   };
   const Next = () => {
     dispatch(nextPage());
@@ -79,9 +82,6 @@ function Main() {
     dispatch(backPage());
   };
 
-  const secondSubmit = () => {
-    Next();
-  };
 
   const PageDisplay = () => {
     switch (count) {
@@ -220,7 +220,7 @@ function Main() {
                   </label>
                 </div>
                 <div className="HomeBtnMain mt-4">
-                  <button className="HomeBtn" onClick={secondSubmit()}>
+                  <button className="HomeBtn" onClick={Next}>
                     NEXT
                   </button>
                 </div>
