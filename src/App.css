@@ -68,3 +68,9 @@
 .errorClass{
   height: 16px;
 }
+
+.datePicker{
+  height: 40px;
+  width: 324px;
+  background-color: #fff;
+}

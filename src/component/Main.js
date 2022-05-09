@@ -3,24 +3,85 @@ import HomeLogo from ".././utils/img/pratik.jpeg";
 import N from ".././utils/img/n.png";
 import { useSelector, useDispatch } from "react-redux";
 import { backPage, nextPage } from "../redux/action/action.Page";
+import DatePicker from "react-date-picker";
 
 function Main() {
   const dispatch = useDispatch();
   const count = useSelector((state) => state.count);
   const [obj1, setObj1] = useState({
-    userName: "",
-    userPhoneNumber: "",
+    userName: "Pratik",
+    userPhoneNumber: "1234567890",
   });
   const [errorMsg1, setErrorMsg1] = useState({
     userName: "",
     userPhoneNumber: "",
+    packgeTypeError:"",
   });
-  const pattern = /[^A-Za-z_.]/;
+  const [value, onChange] = useState(null);
+  const [selectValue ,setSelectValue] = useState("");
+  console.log("selectValue",selectValue);
+  const [plane , setPlane] =([
+    {
+      Packege_Type:"SD",
+      price:250,
+      Start_Date:"",
+      Select_Plane:"",
+      Packege_Plane:"",
+      Packege_Price:"",
+    },
+    {
+      Packege_Type:"HD",
+      price:350,
+      Start_Date:"",
+      Select_Plane:"",
+      Packege_Plane:"",
+      Packege_Price:"",
+    },
+    {
+      Packege_Type:"Normal",
+      price:150,
+      Start_Date:"",
+      Select_Plane:"",
+      Packege_Plane:"",
+      Packege_Price:"",
+    },
+    {
+      Packege_Type:"HD+",
+      price:400,
+      Start_Date:"",
+      Select_Plane:"",
+      Packege_Plane:"",
+      Packege_Price:"",
+    },
+    {
+      Packege_Type:"UHD",
+      price:450,
+      Start_Date:"",
+      Select_Plane:"",
+      Packege_Plane:"",
+      Packege_Price:"",
+    }
+  ])
+  // console.log("p++++++++++++++",plane);
+  const pattern = /[^A-Za-z_./ /]/;
+  
+  const Next = () => {
+    // if (count == 2) {
+    //   dispatch()
+    // } else {
+      
+    // }
+
+
+    dispatch(nextPage());
+  };
+  const Back = () => {
+    dispatch(backPage());
+  };
 
   const onChangeObj1 = (e) => {
     const { name, value } = e.target;
     setObj1({ ...obj1, [name]: value });
-    // setErrorMsg1({ ...errorMsg1, [name]: "" });
     if (name === "userName") {
       if (!value) {
         setErrorMsg1({ ...errorMsg1 ,
@@ -54,6 +115,7 @@ function Main() {
       }
     }
   };
+
   const onSubmitObj1 = () => {
     if (!obj1.userName && !obj1.userPhoneNumber) {
       setErrorMsg1({
@@ -69,19 +131,36 @@ function Main() {
         userPhoneNumber: "Mobile Number is Required!",
       });
     } else if (errorMsg1.userName || errorMsg1.userPhoneNumber) {
-      // true
-      onChangeObj1()
+        return true
     }else {
       Next();
     }
   };
-  const Next = () => {
-    dispatch(nextPage());
-  };
-  const Back = () => {
-    dispatch(backPage());
-  };
 
+  const PackegePlane = (e) =>{
+    // var value = e.target.value
+    const { value, name } = e.target
+    // console.log("value",value);
+    if (name === "packgeType") {
+      if(value === ""){
+        // console.log("eeeeeeeeeeeeeeee",value);
+        setSelectValue(value)
+        setErrorMsg1({...errorMsg1,packgeTypeError:"Select Packege Type!"})
+      }else{
+        // console.log("data");
+        setSelectValue(value)
+        setErrorMsg1({...errorMsg1,packgeTypeError:""})
+      }
+    }
+  }
+  
+  const packageNext = () => {
+    if (selectValue ==="") {
+      setErrorMsg1({...errorMsg1,packgeTypeError:"Select Packege Type!"})
+    } else {
+      Next()
+    }
+  }
 
   const PageDisplay = () => {
     switch (count) {
@@ -187,16 +266,15 @@ function Main() {
                   <label className="form-label mt-3 mb-0 font">
                     Packege_Type
                   </label>
-                  <select className="form-select" id="ddlView">
-                    <option value="Select" selected disabled>
-                      Select Type
-                    </option>
+                  <select name="packgeType" className="form-select" value={selectValue} onChange={(e) => PackegePlane(e)} >
+                    <option value="">Select Type</option>
                     <option value="SD">SD</option>
                     <option value="HD">HD</option>
                     <option value="Normal">Normal</option>
                     <option value="HD+">HD+</option>
                     <option value="UHD">UHD</option>
                   </select>
+                  <div>{errorMsg1.packgeTypeError !== "" ? <p className="m-0" style={{ color: "red" }}>{errorMsg1.packgeTypeError}</p> : ""}</div>
                 </div>
                 <div className="mb-3 m-4">
                   <label className="form-label mt-3 mb-0 font">
@@ -220,7 +298,7 @@ function Main() {
                   </label>
                 </div>
                 <div className="HomeBtnMain mt-4">
-                  <button className="HomeBtn" onClick={Next}>
+                  <button className="HomeBtn" onClick={packageNext}>
                     NEXT
                   </button>
                 </div>
@@ -239,16 +317,12 @@ function Main() {
                 <div className="mb-0 m-3">
                   <label className="form-label mb-0 font">Start Date</label>
                   <br />
-                  <input
-                    type="date"
-                    id=""
-                    name=""
-                    style={{ width: "324px", height: "40px" }}
-                  />
+                  <DatePicker minDate={new Date()} maxDate={new Date()} className="datePicker"
+                  onChange={onChange} value={value} />
                 </div>
                 <div className="mb-0 m-3">
                   <label className="form-label mt-2 mb-0 font">
-                    Packege_Type
+                    Packege_Plane
                   </label>
                   <select
                     className="form-select"
@@ -352,6 +426,7 @@ function Main() {
           </>
         );
       default:
+        <div><p>404-Page Not Found</p></div>
         break;
     }
   };
