@@ -15,63 +15,67 @@ function Main() {
   const [errorMsg1, setErrorMsg1] = useState({
     userName: "",
     userPhoneNumber: "",
-    packgeTypeError:"",
+    packgeTypeError: "",
+    monthTypeError: "",
+    dateError: "",
   });
   const [value, onChange] = useState(null);
-  const [selectValue ,setSelectValue] = useState("");
-  console.log("selectValue",selectValue);
-  const [plane , setPlane] =([
+  const [selectValue, setSelectValue] = useState("");
+  const [selectValue1, setSelectValue1] = useState("");
+  const [dateValue, setDateValue] = useState("");
+  console.log("dateValue+++++++++++++", dateValue);
+  console.log("selectValue", selectValue);
+  const [plane, setPlane] = [
     {
-      Packege_Type:"SD",
-      price:250,
-      Start_Date:"",
-      Select_Plane:"",
-      Packege_Plane:"",
-      Packege_Price:"",
+      Packege_Type: "SD",
+      price: 250,
+      Start_Date: "",
+      Select_Plane: "",
+      Packege_Plane: "",
+      Packege_Price: "",
     },
     {
-      Packege_Type:"HD",
-      price:350,
-      Start_Date:"",
-      Select_Plane:"",
-      Packege_Plane:"",
-      Packege_Price:"",
+      Packege_Type: "HD",
+      price: 350,
+      Start_Date: "",
+      Select_Plane: "",
+      Packege_Plane: "",
+      Packege_Price: "",
     },
     {
-      Packege_Type:"Normal",
-      price:150,
-      Start_Date:"",
-      Select_Plane:"",
-      Packege_Plane:"",
-      Packege_Price:"",
+      Packege_Type: "Normal",
+      price: 150,
+      Start_Date: "",
+      Select_Plane: "",
+      Packege_Plane: "",
+      Packege_Price: "",
     },
     {
-      Packege_Type:"HD+",
-      price:400,
-      Start_Date:"",
-      Select_Plane:"",
-      Packege_Plane:"",
-      Packege_Price:"",
+      Packege_Type: "HD+",
+      price: 400,
+      Start_Date: "",
+      Select_Plane: "",
+      Packege_Plane: "",
+      Packege_Price: "",
     },
     {
-      Packege_Type:"UHD",
-      price:450,
-      Start_Date:"",
-      Select_Plane:"",
-      Packege_Plane:"",
-      Packege_Price:"",
-    }
-  ])
+      Packege_Type: "UHD",
+      price: 450,
+      Start_Date: "",
+      Select_Plane: "",
+      Packege_Plane: "",
+      Packege_Price: "",
+    },
+  ];
   // console.log("p++++++++++++++",plane);
   const pattern = /[^A-Za-z_./ /]/;
-  
+
   const Next = () => {
     // if (count == 2) {
     //   dispatch()
     // } else {
-      
-    // }
 
+    // }
 
     dispatch(nextPage());
   };
@@ -84,34 +88,25 @@ function Main() {
     setObj1({ ...obj1, [name]: value });
     if (name === "userName") {
       if (!value) {
-        setErrorMsg1({ ...errorMsg1 ,
-          userName: "Username is Required!",
-        });
+        setErrorMsg1({ ...errorMsg1, userName: "Username is Required!" });
       } else if (value.match(pattern)) {
-        setErrorMsg1({...errorMsg1 ,
-          userName: "Username Not Allow Number!",
-        });
+        setErrorMsg1({ ...errorMsg1, userName: "Username Not Allow Number!" });
+      } else {
+        setErrorMsg1({ ...errorMsg1, userName: "" });
       }
-      else {
-        setErrorMsg1({...errorMsg1 ,
-          userName: "",
-        });
-      }
-    }
-    else if (name === "userPhoneNumber") {
+    } else if (name === "userPhoneNumber") {
       if (!value) {
-        setErrorMsg1({...errorMsg1 ,
+        setErrorMsg1({
+          ...errorMsg1,
           userPhoneNumber: "Mobile Number is Required!",
         });
       } else if (value.length !== 10) {
-        setErrorMsg1({...errorMsg1 ,
+        setErrorMsg1({
+          ...errorMsg1,
           userPhoneNumber: "Mobile Number Must be 10 Digit",
         });
-      }
-      else {
-        setErrorMsg1({...errorMsg1 ,
-          userPhoneNumber: "",
-        });
+      } else {
+        setErrorMsg1({ ...errorMsg1, userPhoneNumber: "" });
       }
     }
   };
@@ -123,44 +118,76 @@ function Main() {
         userPhoneNumber: "Mobile Number is Required!",
       });
     } else if (!obj1.userName) {
-      setErrorMsg1({...errorMsg1 ,
-        userName: "Username is Required!",
-      });
-    }  else if (!obj1.userPhoneNumber) {
-      setErrorMsg1({...errorMsg1 ,
+      setErrorMsg1({ ...errorMsg1, userName: "Username is Required!" });
+    } else if (!obj1.userPhoneNumber) {
+      setErrorMsg1({
+        ...errorMsg1,
         userPhoneNumber: "Mobile Number is Required!",
       });
     } else if (errorMsg1.userName || errorMsg1.userPhoneNumber) {
-        return true
-    }else {
+      return true;
+    } else {
       Next();
     }
   };
 
-  const PackegePlane = (e) =>{
+  const PackegePlane = (e) => {
     // var value = e.target.value
-    const { value, name } = e.target
+    const { value, name } = e.target;
     // console.log("value",value);
     if (name === "packgeType") {
-      if(value === ""){
+      if (value === "") {
         // console.log("eeeeeeeeeeeeeeee",value);
-        setSelectValue(value)
-        setErrorMsg1({...errorMsg1,packgeTypeError:"Select Packege Type!"})
-      }else{
+        setSelectValue(value);
+        setErrorMsg1({ ...errorMsg1, packgeTypeError: "Select Packege Type!" });
+      } else {
         // console.log("data");
-        setSelectValue(value)
-        setErrorMsg1({...errorMsg1,packgeTypeError:""})
+        setSelectValue(value);
+        setErrorMsg1({ ...errorMsg1, packgeTypeError: "" });
       }
     }
-  }
-  
+  };
+
   const packageNext = () => {
-    if (selectValue ==="") {
-      setErrorMsg1({...errorMsg1,packgeTypeError:"Select Packege Type!"})
+    if (selectValue === "") {
+      setErrorMsg1({ ...errorMsg1, packgeTypeError: "Select Packege Type!" });
     } else {
-      Next()
+      Next();
     }
-  }
+  };
+
+  const MonthPlane = (e) => {
+    const { value, name } = e.target;
+    if (name === "monthType") {
+      if (value === "") {
+        setSelectValue1(value);
+        setErrorMsg1({ ...errorMsg1, monthTypeError: "Select Month Plane!" });
+      } else {
+        setSelectValue1(value);
+        setErrorMsg1({ ...errorMsg1, monthTypeError: "" });
+      }
+    }
+  };
+
+  const DateChange = (e) => {
+    console.log("e--------------------", e);
+    // const {value,name} = e.target;
+    // console.log("name",name);
+    // if (!dateValue) {
+      // setDateValue(value);
+      // setErrorMsg1({...errorMsg1, dateError:"SelectDate!"})
+    // }
+  };
+
+  const planPriceSelect = () => {
+    if (dateValue === "") {
+      setErrorMsg1({ ...errorMsg1, monthTypeError: "Select Date!" });
+    } else if (selectValue1 === "") {
+      setErrorMsg1({ ...errorMsg1, dateError: "Select Month Plane!" });
+    } else {
+      Next();
+    }
+  };
 
   const PageDisplay = () => {
     switch (count) {
@@ -266,7 +293,12 @@ function Main() {
                   <label className="form-label mt-3 mb-0 font">
                     Packege_Type
                   </label>
-                  <select name="packgeType" className="form-select" value={selectValue} onChange={(e) => PackegePlane(e)} >
+                  <select
+                    name="packgeType"
+                    className="form-select"
+                    value={selectValue}
+                    onChange={(e) => PackegePlane(e)}
+                  >
                     <option value="">Select Type</option>
                     <option value="SD">SD</option>
                     <option value="HD">HD</option>
@@ -274,7 +306,15 @@ function Main() {
                     <option value="HD+">HD+</option>
                     <option value="UHD">UHD</option>
                   </select>
-                  <div>{errorMsg1.packgeTypeError !== "" ? <p className="m-0" style={{ color: "red" }}>{errorMsg1.packgeTypeError}</p> : ""}</div>
+                  <div>
+                    {errorMsg1.packgeTypeError !== "" ? (
+                      <p className="m-0" style={{ color: "red" }}>
+                        {errorMsg1.packgeTypeError}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
                 <div className="mb-3 m-4">
                   <label className="form-label mt-3 mb-0 font">
@@ -314,26 +354,57 @@ function Main() {
                 <button className="mt-0 btnHide" onClick={Back}>
                   <i className="fa ">&#xf177;</i>
                 </button>
-                <div className="mb-0 m-3">
-                  <label className="form-label mb-0 font">Start Date</label>
-                  <br />
-                  <DatePicker minDate={new Date()} maxDate={new Date()} className="datePicker"
-                  onChange={onChange} value={value} />
+                <div style={{ height: "80px" }}>
+                  <div className="mb-0 m-3">
+                    <label className="form-label mb-0 font">Start Date</label>
+                    <br />
+                    <DatePicker
+                      minDate={new Date()}
+                      maxDate={new Date()}
+                      format="dd-MM-y"
+                      className="datePicker"
+                      value={dateValue}
+                      onChange={DateChange}
+                    />
+                  </div>
+                  <div>
+                    {errorMsg1.dateError !== "" ? (
+                      <p className="mx-4 m-0" style={{ color: "red" }}>
+                        {errorMsg1.dateError}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
-                <div className="mb-0 m-3">
-                  <label className="form-label mt-2 mb-0 font">
-                    Packege_Plane
-                  </label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                  >
-                    <option selected>Select Plane</option>
-                    <option value="1">1-Month</option>
-                    <option value="2">3-Month</option>
-                    <option value="3">6-Month</option>
-                    <option value="3">1-Year</option>
-                  </select>
+                <div style={{ height: "60px" }}>
+                  <div className="mb-0 m-3">
+                    <label className="form-label mt-2 mb-0 font">
+                      Packege_Plane
+                    </label>
+                    <select
+                      className="form-select"
+                      name="monthType"
+                      aria-label="Default select example"
+                      value={selectValue1}
+                      onChange={(e) => MonthPlane(e)}
+                    >
+                      <option value="">Select Plane</option>
+                      <option value="1">1-Month</option>
+                      <option value="2">3-Month</option>
+                      <option value="3">6-Month</option>
+                      <option value="3">1-Year</option>
+                    </select>
+                  </div>
+                  <div>
+                    {errorMsg1.monthTypeError !== "" ? (
+                      <p className="mx-4 m-0" style={{ color: "red" }}>
+                        {errorMsg1.monthTypeError}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
                 <div className="d-flex mx-5 mt-2">
                   <div className="mb-3 mx-3 mt-5">
@@ -351,7 +422,7 @@ function Main() {
                   <div className="mb-3 mt-5">
                     <label className="form-label mx-4 mb-0 font">Price</label>
                     <br />
-                    <label className="form-label mx-4 mb-0 font">250</label>
+                    <label className="form-label mx-4 mb-0 font">2500</label>
                     <br />
                     <label className="form-label mx-4 mb-0 font">625</label>
                     <br />
@@ -362,7 +433,7 @@ function Main() {
                   </div>
                 </div>
                 <div className="HomeBtnMain mt-2">
-                  <button className="HomeBtn" onClick={Next}>
+                  <button className="HomeBtn" onClick={planPriceSelect}>
                     NEXT
                   </button>
                 </div>
@@ -423,10 +494,15 @@ function Main() {
                 </div>
               </div>
             </div>
+            <button className="mt-0 btnHide" onClick={Back}>
+              <i className="fa ">&#xf177;</i>
+            </button>
           </>
         );
       default:
-        <div><p>404-Page Not Found</p></div>
+        <div>
+          <p>404-Page Not Found</p>
+        </div>;
         break;
     }
   };
