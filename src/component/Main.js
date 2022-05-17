@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HomeLogo from ".././utils/img/pratik.jpeg";
 import N from ".././utils/img/n.png";
 import { useSelector, useDispatch } from "react-redux";
-import { backPage, nextPage } from "../redux/action/action.Page";
+import { backPage, nextPage } from "../redux/action/action.Count";
 import DatePicker from "react-date-picker";
+import { Addcontact, Addname } from "../redux/action/action.Detail";
 
 function Main() {
   const dispatch = useDispatch();
   const count = useSelector((state) => state.count);
+  const detail = useSelector((state) => state.detail);
+  console.log("detaildetaildetail",detail);
   const [obj1, setObj1] = useState({
     userName: "Pratik",
     userPhoneNumber: "1234567890",
@@ -19,10 +22,9 @@ function Main() {
     monthTypeError: "",
     dateError: "",
   });
-  const [value, onChange] = useState(null);
   const [selectValue, setSelectValue] = useState("");
   const [selectValue1, setSelectValue1] = useState("");
-  const [dateValue, setDateValue] = useState("");
+  const [dateValue, setDateValue] = useState(null);
   console.log("dateValue+++++++++++++", dateValue);
   console.log("selectValue", selectValue);
   const [plane, setPlane] = [
@@ -69,6 +71,14 @@ function Main() {
   ];
   // console.log("p++++++++++++++",plane);
   const pattern = /[^A-Za-z_./ /]/;
+
+//   const setData = (state) => {
+//     setPage(state)
+// }
+  // useEffect(() => {
+  //   detail && setData(detail)
+  // }, [detail])
+  
 
   const Next = () => {
     // if (count == 2) {
@@ -126,7 +136,9 @@ function Main() {
       });
     } else if (errorMsg1.userName || errorMsg1.userPhoneNumber) {
       return true;
-    } else {
+    } else { 
+      dispatch(Addname(obj1.userName))
+      dispatch(Addcontact(obj1.userPhoneNumber))
       Next();
     }
   };
@@ -169,21 +181,24 @@ function Main() {
     }
   };
 
-  const DateChange = (e) => {
-    console.log("e--------------------", e);
-    // const {value,name} = e.target;
-    // console.log("name",name);
-    // if (!dateValue) {
-      // setDateValue(value);
-      // setErrorMsg1({...errorMsg1, dateError:"SelectDate!"})
-    // }
+  const DateChange = (date) => {
+    console.log("datedatedate",date);
+    if (!date) {
+      setErrorMsg1({ ...errorMsg1, dateError: "Please Select date" });
+      setDateValue(date);
+    } else {
+      setErrorMsg1({ ...errorMsg1, dateError: "" });
+      setDateValue(date);
+    }
   };
 
   const planPriceSelect = () => {
-    if (dateValue === "") {
-      setErrorMsg1({ ...errorMsg1, monthTypeError: "Select Date!" });
+      if (selectValue1 === "" && dateValue === null) {
+      setErrorMsg1({ ...errorMsg1, monthTypeError: "Select Month Plane!1" ,dateError: "Please Select date!" });
     } else if (selectValue1 === "") {
-      setErrorMsg1({ ...errorMsg1, dateError: "Select Month Plane!" });
+      setErrorMsg1({ ...errorMsg1, monthTypeError: "Select Month Plane!" });
+    } else if (dateValue === null) {
+      setErrorMsg1({ ...errorMsg1, dateError: "Please Select date!" });
     } else {
       Next();
     }
@@ -472,7 +487,7 @@ function Main() {
                     <br />
                   </div>
                   <div className="mb-3 mt-5">
-                    <label className="form-label mx-4 mb-0 font">Name</label>
+                    <label className="form-label mx-4 mb-0 font">{detail.Name}</label>
                     <br />
                     <label className="form-label mx-4 mb-0 font">
                       Packege_Type

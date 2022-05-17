@@ -1,7 +1,7 @@
 import { NEXT_PAGE,BACK_PAGE } from "../type/Type";
 import { initialState } from "../initialState";
 
-export const Reducer = (state = initialState.Page, action) => {
+export const Count = (state = initialState.Page, action) => {
   switch (action.type) {
     case NEXT_PAGE:
       return state + 1;
