@@ -4,13 +4,21 @@ import N from ".././utils/img/n.png";
 import { useSelector, useDispatch } from "react-redux";
 import { backPage, nextPage } from "../redux/action/action.Count";
 import DatePicker from "react-date-picker";
-import { Addcontact, Addname } from "../redux/action/action.Detail";
+import {
+  Addcontact,
+  Addname,
+  PackagePlane,
+  PackageType,
+  Price,
+  StartDate,
+  TotalPrice,
+} from "../redux/action/action.Detail";
 
 function Main() {
   const dispatch = useDispatch();
   const count = useSelector((state) => state.count);
   const detail = useSelector((state) => state.detail);
-  console.log("detaildetaildetail",detail);
+  console.log("detaildetaildetail", detail);
   const [obj1, setObj1] = useState({
     userName: "Pratik",
     userPhoneNumber: "1234567890",
@@ -25,9 +33,7 @@ function Main() {
   const [selectValue, setSelectValue] = useState("");
   const [selectValue1, setSelectValue1] = useState("");
   const [dateValue, setDateValue] = useState(null);
-  console.log("dateValue+++++++++++++", dateValue);
-  console.log("selectValue", selectValue);
-  const [plane, setPlane] = [
+  const [plane, setPlane] = useState([
     {
       Packege_Type: "SD",
       price: 250,
@@ -68,17 +74,8 @@ function Main() {
       Packege_Plane: "",
       Packege_Price: "",
     },
-  ];
-  // console.log("p++++++++++++++",plane);
+  ]);
   const pattern = /[^A-Za-z_./ /]/;
-
-//   const setData = (state) => {
-//     setPage(state)
-// }
-  // useEffect(() => {
-  //   detail && setData(detail)
-  // }, [detail])
-  
 
   const Next = () => {
     // if (count == 2) {
@@ -136,34 +133,66 @@ function Main() {
       });
     } else if (errorMsg1.userName || errorMsg1.userPhoneNumber) {
       return true;
-    } else { 
-      dispatch(Addname(obj1.userName))
-      dispatch(Addcontact(obj1.userPhoneNumber))
+    } else {
+      dispatch(Addname(obj1.userName));
+      dispatch(Addcontact(obj1.userPhoneNumber));
       Next();
     }
   };
 
   const PackegePlane = (e) => {
-    // var value = e.target.value
     const { value, name } = e.target;
-    // console.log("value",value);
     if (name === "packgeType") {
       if (value === "") {
-        // console.log("eeeeeeeeeeeeeeee",value);
         setSelectValue(value);
         setErrorMsg1({ ...errorMsg1, packgeTypeError: "Select Packege Type!" });
       } else {
-        // console.log("data");
         setSelectValue(value);
         setErrorMsg1({ ...errorMsg1, packgeTypeError: "" });
       }
     }
   };
 
+  useEffect(() => {
+    selectValue && dispatch(PackageType(selectValue))
+  }, [dispatch,selectValue])
+  
+
+  const addPrice = () => {
+    plane &&
+      plane.map((p) => {
+        if (p.Packege_Type === detail.Package_Type) {
+          dispatch(Price(p.price));
+        }
+      });
+  };
+  const totalPrice = () => {
+    plane &&
+      plane.map((p) => {
+        debugger
+        if (p.Packege_Type === detail.Package_Type) {
+          if ("1-Month" === selectValue1) {
+            dispatch(TotalPrice(detail.Price));
+          }
+           else if("3-Month" === selectValue1){
+            dispatch(TotalPrice(detail.Price * 2.8));
+          }
+           else if("6-Month" === selectValue1){
+            dispatch(TotalPrice(detail.Price * 5.5));
+          }
+           else if("1-Year" === selectValue1){
+            dispatch(TotalPrice(detail.Price * 11));
+          }
+        }
+      });
+  };
+
   const packageNext = () => {
     if (selectValue === "") {
       setErrorMsg1({ ...errorMsg1, packgeTypeError: "Select Packege Type!" });
     } else {
+      // dispatch(PackageType(selectValue))
+      addPrice();
       Next();
     }
   };
@@ -182,7 +211,6 @@ function Main() {
   };
 
   const DateChange = (date) => {
-    console.log("datedatedate",date);
     if (!date) {
       setErrorMsg1({ ...errorMsg1, dateError: "Please Select date" });
       setDateValue(date);
@@ -193,13 +221,21 @@ function Main() {
   };
 
   const planPriceSelect = () => {
-      if (selectValue1 === "" && dateValue === null) {
-      setErrorMsg1({ ...errorMsg1, monthTypeError: "Select Month Plane!1" ,dateError: "Please Select date!" });
+    if (selectValue1 === "" && dateValue === null) {
+      setErrorMsg1({
+        ...errorMsg1,
+        monthTypeError: "Select Month Plane!1",
+        dateError: "Please Select date!",
+      });
     } else if (selectValue1 === "") {
       setErrorMsg1({ ...errorMsg1, monthTypeError: "Select Month Plane!" });
     } else if (dateValue === null) {
       setErrorMsg1({ ...errorMsg1, dateError: "Please Select date!" });
     } else {
+      const getDate =  dateValue.getDate() + '-' + (dateValue.getMonth() + 1) + '-' + dateValue.getFullYear();
+      dispatch(StartDate(getDate))
+      dispatch(PackagePlane(selectValue1))
+      totalPrice()
       Next();
     }
   };
@@ -405,10 +441,10 @@ function Main() {
                       onChange={(e) => MonthPlane(e)}
                     >
                       <option value="">Select Plane</option>
-                      <option value="1">1-Month</option>
-                      <option value="2">3-Month</option>
-                      <option value="3">6-Month</option>
-                      <option value="3">1-Year</option>
+                      <option value="1-Month">1-Month</option>
+                      <option value="3-Month">3-Month</option>
+                      <option value="6-Month">6-Month</option>
+                      <option value="1-Year">1-Year</option>
                     </select>
                   </div>
                   <div>
@@ -437,13 +473,19 @@ function Main() {
                   <div className="mb-3 mt-5">
                     <label className="form-label mx-4 mb-0 font">Price</label>
                     <br />
-                    <label className="form-label mx-4 mb-0 font">2500</label>
+                    <label className="form-label mx-4 mb-0 font">{detail.Price}</label>
                     <br />
-                    <label className="form-label mx-4 mb-0 font">625</label>
+                    <label className="form-label mx-4 mb-0 font">
+                      {detail.Price * 2.8}
+                    </label>
                     <br />
-                    <label className="form-label mx-4 mb-0 font">1000</label>
+                    <label className="form-label mx-4 mb-0 font">
+                      {detail.Price * 5.5}
+                    </label>
                     <br />
-                    <label className="form-label mx-4 mb-0 font">1750</label>
+                    <label className="form-label mx-4 mb-0 font">
+                      {detail.Price * 11}
+                    </label>
                     <br />
                   </div>
                 </div>
@@ -487,31 +529,32 @@ function Main() {
                     <br />
                   </div>
                   <div className="mb-3 mt-5">
-                    <label className="form-label mx-4 mb-0 font">{detail.Name}</label>
-                    <br />
                     <label className="form-label mx-4 mb-0 font">
-                      Packege_Type
+                      {detail.Name}
                     </label>
                     <br />
                     <label className="form-label mx-4 mb-0 font">
-                      Start_Date
+                    {detail.Package_Type}
                     </label>
                     <br />
                     <label className="form-label mx-4 mb-0 font">
-                      Packege_Plane
+                    {detail.Start_Date}
                     </label>
                     <br />
-                    <label className="form-label mx-4 mb-0 font">Price</label>
+                    <label className="form-label mx-4 mb-0 font">
+                    {detail.Package_Plane}
+                    </label>
                     <br />
-                    <label className="form-label mx-4 mb-0 font">Status</label>
+                    <label className="form-label mx-4 mb-0 font">
+                    {detail.Total_Price}
+                    </label>
+                    <br />
+                    <label className="form-label mx-4 mb-0 font">Activated</label>
                     <br />
                   </div>
                 </div>
               </div>
             </div>
-            <button className="mt-0 btnHide" onClick={Back}>
-              <i className="fa ">&#xf177;</i>
-            </button>
           </>
         );
       default:
