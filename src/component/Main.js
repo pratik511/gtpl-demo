@@ -168,7 +168,6 @@ function Main() {
   const totalPrice = () => {
     plane &&
       plane.map((p) => {
-        debugger
         if (p.Packege_Type === detail.Package_Type) {
           if ("1-Month" === selectValue1) {
             dispatch(TotalPrice(detail.Price));
@@ -456,11 +455,11 @@ function Main() {
                     )}
                   </div>
                 </div>
-                <div className="d-flex mx-5 mt-2">
-                  <div className="mb-3 mx-3 mt-5">
-                    <label className="form-label mx-4 mb-0 font">Plane</label>
+                <div className="d-flex mx-3 mt-2">
+                  <div className="mb-3 mx-4 mt-5">
+                    <label className="form-label mx-4 mb-0 font" >Plane</label>
                     <br />
-                    <label className="form-label mx-4 mb-0 font">1-Month</label>
+                    <label className="form-label mx-4 mb-0 font" style={{width:"max-content"}}>1-Month</label>
                     <br />
                     <label className="form-label mx-4 mb-0 font">3-Month</label>
                     <br />
@@ -469,21 +468,21 @@ function Main() {
                     <label className="form-label mx-4 mb-0 font">1-Year</label>
                     <br />
                   </div>
-                  <div className="mb-3 mt-5">
+                  <div className="mb-3 mx-4 mt-5">
                     <label className="form-label mx-4 mb-0 font">Price</label>
                     <br />
-                    <label className="form-label mx-4 mb-0 font">{detail.Price}</label>
+                    <label className="form-label mx-4 mb-0 font">{(detail.Price).toFixed(0)}</label>
                     <br />
                     <label className="form-label mx-4 mb-0 font">
-                      {detail.Price * 2.8}
+                      {(detail.Price * 2.8).toFixed(0)}
                     </label>
                     <br />
                     <label className="form-label mx-4 mb-0 font">
-                      {detail.Price * 5.5}
+                      {(detail.Price * 5.5).toFixed(0)}
                     </label>
                     <br />
                     <label className="form-label mx-4 mb-0 font">
-                      {detail.Price * 11}
+                      {(detail.Price * 11).toFixed(0)}
                     </label>
                     <br />
                   </div>

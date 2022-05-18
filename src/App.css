@@ -7,6 +7,8 @@
   background-color: rgb(98, 242, 247);
   width: 20%;
   height: 550px;
+  margin: 0;
+  padding: 0;
 }
 .imgDiv{
   display: flex;
@@ -73,4 +75,36 @@
   height: 40px;
   width: 324px;
   background-color: #fff;
+}
+
+@media (max-width:1450px) {
+  .container {
+    width: 25%;
+}
+.datePicker{
+  width: 100%;
+}
+.react-calendar{
+  width: 87%;
+}
+}
+@media (max-width:500px) {
+  .container {
+    width: 85%;
+}
+}
+@media (max-width:350px) {
+  .container {
+    width: 97%;
+}
+}
+@media (max-width:770px) {
+  .container {
+    width: 50%;
+}
+}
+@media (max-width:1030px) {
+  .container {
+    width: 35%;
+}
 }
