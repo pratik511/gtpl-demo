@@ -544,7 +544,7 @@ function Main() {
                     </label>
                     <br />
                     <label className="form-label mx-4 mb-0 font">
-                    {detail.Total_Price}
+                    {(detail.Total_Price).toFixed(0)}
                     </label>
                     <br />
                     <label className="form-label mx-4 mb-0 font">Activated</label>
