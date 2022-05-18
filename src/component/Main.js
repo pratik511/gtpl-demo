@@ -18,10 +18,9 @@ function Main() {
   const dispatch = useDispatch();
   const count = useSelector((state) => state.count);
   const detail = useSelector((state) => state.detail);
-  console.log("detaildetaildetail", detail);
   const [obj1, setObj1] = useState({
-    userName: "Pratik",
-    userPhoneNumber: "1234567890",
+    userName: "",
+    userPhoneNumber: "",
   });
   const [errorMsg1, setErrorMsg1] = useState({
     userName: "",
