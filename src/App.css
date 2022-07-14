@@ -77,9 +77,9 @@
   background-color: #fff;
 }
 
-@media (max-width:1450px) {
+@media only screen and (max-width:1450px) {
   .container {
-    width: 25%;
+    width: 50%;
 }
 .datePicker{
   width: 100%;
@@ -88,23 +88,23 @@
   width: 87%;
 }
 }
-@media (max-width:500px) {
+@media only screen and (max-width:500px) {
   .container {
-    width: 85%;
+    width: 95%;
 }
 }
-@media (max-width:350px) {
+@media only screen and (max-width:350px) {
   .container {
     width: 97%;
 }
 }
-@media (max-width:770px) {
+/* @media only screen and (max-width:770px) {
   .container {
     width: 50%;
 }
-}
-@media (max-width:1030px) {
+} */
+/* @media only screen and (max-width:1030px) {
   .container {
     width: 35%;
 }
-}
+} */
